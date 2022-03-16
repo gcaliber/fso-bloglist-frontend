@@ -99,23 +99,25 @@ const App = () => {
   }
 
   const handleRemoveBlog = async ({id, title, author}) => {
-    try {
-      await blogService.remove(id)
-      setBlogs(blogs.filter(b => id !== b.id))
-      setNotification({ message: `${title} by ${author} removed`, type: 'success' })
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
-    }
-    catch (exception) {
-      console.log(exception)
-      if (exception.message === 'Request failed with status code 401') {
-        exception.message = 'You may only remove blogs you have added.'
-      }
-        setNotification({ message: exception.message, type: 'error' })
+    if (window.confirm(`Really delete "${title}"?`)) {
+      try {
+        await blogService.remove(id)
+        setBlogs(blogs.filter(b => id !== b.id))
+        setNotification({ message: `${title} by ${author} removed`, type: 'success' })
         setTimeout(() => {
           setNotification(null)
         }, 5000)
+      }
+      catch (exception) {
+        console.log(exception)
+        if (exception.message === 'Request failed with status code 401') {
+          exception.message = 'You may only remove blogs you have added.'
+        }
+          setNotification({ message: exception.message, type: 'error' })
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
+      }
     }
   }
 
@@ -166,7 +168,7 @@ const App = () => {
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog => 
-          <Blog key={blog.id} blog={blog} handleLikes={handleLikeUpdate} handleRemove={handleRemoveBlog}/>
+          <Blog key={blog.id} blog={blog} user={user} handleLikes={handleLikeUpdate} handleRemove={handleRemoveBlog} />
       )}
     </div>
   )

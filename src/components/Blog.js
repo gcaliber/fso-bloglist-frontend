@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const Blog = ({ blog, handleLikes, handleRemove }) => {
+const Blog = ({ blog, user, handleLikes, handleRemove }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
 
-  const showWhenVisible = { display: detailsVisible ? '' : 'none' }
+  const showDetails = { display: detailsVisible ? '' : 'none' }
+  const showRemoveButton = { display: user.id === blog.user.id ? '' : 'none' }
 
   const toggleVisibility = () => {
     setDetailsVisible(!detailsVisible)
@@ -32,20 +34,29 @@ const Blog = ({ blog, handleLikes, handleRemove }) => {
     handleRemove(blog)
   }
 
-  // change visibility of remove button so it only shows on blogs you added
   return (
     <div style={blogStyle}>
         {blog.title} {blog.author} 
         <button 
           onClick={toggleVisibility}>{detailsVisible ? 'hide' :'view'}
         </button>
-        <div style={showWhenVisible}>
+        <div style={showDetails}>
           {blog.url}<br />
           likes {blog.likes} <button onClick={addLike}>like</button><br />
           {blog.user.name}<br />
-          <button onClick={removeBlog}>remove</button><br />
+          <div style={showRemoveButton}>
+            <button onClick={removeBlog}>remove</button>
+          </div>
         </div>
     </div>  
   )
 }
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  handleLikes: PropTypes.func.isRequired,
+  handleRemove: PropTypes.func.isRequired,
+}
+
 export default Blog
