@@ -10,7 +10,7 @@ const Blog = ({ blog, user, handleLikes, handleRemove }) => {
   const toggleVisibility = () => {
     setDetailsVisible(!detailsVisible)
   }
-  
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -35,20 +35,20 @@ const Blog = ({ blog, user, handleLikes, handleRemove }) => {
   }
 
   return (
-    <div style={blogStyle}>
-        {blog.title} {blog.author} 
-        <button 
-          onClick={toggleVisibility}>{detailsVisible ? 'hide' :'view'}
-        </button>
-        <div style={showDetails}>
-          {blog.url}<br />
+    <div style={blogStyle} className='blog'>
+      {blog.title} {blog.author}
+      <button
+        onClick={toggleVisibility}>{detailsVisible ? 'hide' :'view'}
+      </button>
+      <div style={showDetails} className='blog__details'>
+        {blog.url}<br />
           likes {blog.likes} <button onClick={addLike}>like</button><br />
-          {blog.user.name}<br />
-          <div style={showRemoveButton}>
-            <button onClick={removeBlog}>remove</button>
-          </div>
+        {blog.user.name}<br />
+        <div style={showRemoveButton}>
+          <button onClick={removeBlog}>remove</button>
         </div>
-    </div>  
+      </div>
+    </div>
   )
 }
 

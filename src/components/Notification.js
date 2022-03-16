@@ -5,7 +5,7 @@ const Notification = ({ notification }) => {
     return null
   }
 
-  const {message, type} = notification
+  const { message, type } = notification
   return (
     <div className={`${type}`}>
       {message}

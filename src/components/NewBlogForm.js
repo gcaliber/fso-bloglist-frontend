@@ -21,27 +21,27 @@ const NewBlogForm = ({ createBlog }) => {
 
   return (
     <form onSubmit={addBlog}>
-    <div>
+      <div>
       title
-        <input type="text" value={title} name="title"
-        onChange={({ target }) => setTitle(target.value)}
+        <input type="text" value={title} name="title" className="title"
+          onChange={({ target }) => setTitle(target.value)}
         />
-    </div>
-    <div>
+      </div>
+      <div>
       author
-        <input type="text" value={author} name="author"
-        onChange={({ target }) => setAuthor(target.value)}
+        <input type="text" value={author} name="author" className="author"
+          onChange={({ target }) => setAuthor(target.value)}
         />
-    </div>
-    <div>
+      </div>
+      <div>
       url
-        <input type="text" value={url} name="url"
-        onChange={({ target }) => setUrl(target.value)}
+        <input type="text" value={url} name="url" className="url"
+          onChange={({ target }) => setUrl(target.value)}
         />
-    </div>
-    <button type="submit">submit</button>
+      </div>
+      <button type="submit">submit</button>
     </form>
-)}
+  )}
 
 NewBlogForm.propTypes = {
   createBlog: PropTypes.func.isRequired
