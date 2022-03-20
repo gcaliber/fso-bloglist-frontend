@@ -22,7 +22,7 @@ describe('new blog form', () => {
     userEvent.type(authorInput, 'testing author input' )
     userEvent.type(urlInput, 'testing url input' )
 
-    const submit = screen.getByText('submit')
+    const submit = container.querySelector('.submit')
     userEvent.click(submit)
 
     expect(createBlog.mock.calls).toHaveLength(1)
