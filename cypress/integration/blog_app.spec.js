@@ -66,6 +66,13 @@ describe('Blog app', function() {
         cy.contains("first blog").get('#like').click()
         cy.contains("first blog").contains('likes 1')
       })
+
+      it('a blog\'s creator can delete it', function() {
+        cy.contains("first blog").contains('#details-button').click()
+        cy.contains("first blog").contains('#remove-button').click()
+        cy.on('window:confirm', () => true)
+        cy.not.contains('first blog')
+      })
     })
   })
 })
