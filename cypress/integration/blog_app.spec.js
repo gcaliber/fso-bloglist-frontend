@@ -52,26 +52,39 @@ describe('Blog app', function() {
 
     describe('blog functionality', function() {
       beforeEach(function() {
-        const blog = {
+        const blog1 = {
           title: "first blog",
           author: "first author",
-          url: "first url"
+          url: "first url",
+          likes: 0
         }
-        cy.request('POST', 'http://localhost:3003/api/blogs/', blog)
-        cy.visit('http://localhost:3000')
+        const blog2 = {
+          title: "second blog",
+          author: "second author",
+          url: "second url",
+          likes: 1
+        }
+        cy.createBlog(blog1)
+        cy.createBlog(blog2)
       })
 
       it('a blog can be liked', function() {
+        cy.contains("first blog").find('#details-button').click()
         cy.contains("first blog").contains('likes 0')
-        cy.contains("first blog").get('#like').click()
+        cy.contains("first blog").find('#like').click()
         cy.contains("first blog").contains('likes 1')
       })
 
       it('a blog\'s creator can delete it', function() {
-        cy.contains("first blog").contains('#details-button').click()
-        cy.contains("first blog").contains('#remove-button').click()
-        cy.on('window:confirm', () => true)
-        cy.not.contains('first blog')
+        cy.contains("first blog").find('#details-button').click()
+        cy.contains("first blog").find('#remove-button').click()
+        cy.get('.success').contains('first blog by first author removed')
+        cy.contains('second blog').wait(5100)
+        cy.contains('first blog').should('not.exist')
+      })
+
+      it('blogs are shown in the order of most likes to least', function() {
+        
       })
     })
   })
