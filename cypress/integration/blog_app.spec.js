@@ -1,4 +1,4 @@
-import { func } from "prop-types"
+import { func } from 'prop-types'
 
 describe('Blog app', function() {
   beforeEach(function() {
@@ -52,39 +52,39 @@ describe('Blog app', function() {
 
     describe('blog functionality', function() {
       beforeEach(function() {
-        const blog1 = {
-          title: "first blog",
-          author: "first author",
-          url: "first url",
-          likes: 0
-        }
-        const blog2 = {
-          title: "second blog",
-          author: "second author",
-          url: "second url",
-          likes: 1
-        }
-        cy.createBlog(blog1)
-        cy.createBlog(blog2)
+        cy.createBlog({ title: 'first blog', author: 'first author', url: 'first url' })
+        cy.createBlog({ title: 'second blog', author: 'second author', url: 'second url' })
+        cy.createBlog({ title: 'third blog', author: 'third author', url: 'third url' })
       })
 
       it('a blog can be liked', function() {
-        cy.contains("first blog").find('#details-button').click()
-        cy.contains("first blog").contains('likes 0')
-        cy.contains("first blog").find('#like').click()
-        cy.contains("first blog").contains('likes 1')
+        cy.contains('first blog').find('#details-button').click()
+        cy.contains('first blog').contains('likes 0')
+        cy.contains('first blog').find('#like').click()
+        cy.contains('first blog').contains('likes 1')
       })
 
       it('a blog\'s creator can delete it', function() {
-        cy.contains("first blog").find('#details-button').click()
-        cy.contains("first blog").find('#remove-button').click()
+        cy.contains('first blog').find('#details-button').click()
+        cy.contains('first blog').find('#remove-button').click()
         cy.get('.success').contains('first blog by first author removed')
         cy.contains('second blog').wait(5100)
         cy.contains('first blog').should('not.exist')
       })
 
       it('blogs are shown in the order of most likes to least', function() {
-        
+        cy.contains('first blog').find('#details-button').click()
+        cy.contains('second blog').find('#details-button').click()
+        cy.contains('second blog').find('#like').click().wait(100)
+        cy.contains('second blog').find('#like').click().wait(100)
+        cy.contains('third blog').find('#details-button').click()
+        cy.contains('third blog').find('#like').click().wait(100)
+
+        cy.get('.blog').then(function(blogs) {
+          cy.wrap(blogs[0]).contains('second blog')
+          cy.wrap(blogs[1]).contains('third blog')
+          cy.wrap(blogs[2]).contains('first blog')
+        })
       })
     })
   })
